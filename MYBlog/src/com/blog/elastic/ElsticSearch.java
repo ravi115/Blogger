@@ -2,6 +2,7 @@ package com.blog.elastic;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.elasticsearch.ElasticsearchException;
 //import org.elasticsearch.action.get.GetResponse;
 import org.json.JSONObject;
@@ -15,13 +16,12 @@ import io.searchbox.indices.CreateIndex;
 
 public class ElsticSearch {
 
+	private static final Logger LOG = Logger.getLogger(ElsticSearch.class);
 	private JestClient client = null;
 	private final static String INDEX = "students";
 	private final static String INDEX_TYPE = "studentdetail";
-	//private final static int STATUS = 200;
-
+	
 	public ElsticSearch() {
-
 		initializeElastic();
 		createIndex();
 	}
@@ -37,7 +37,7 @@ public class ElsticSearch {
 		try {
 			client.execute(new CreateIndex.Builder(INDEX).build());
 		} catch (IOException ex) {
-			System.out.println("error in elastic search is :" + ex);
+			LOG.debug("error is : " + ex);
 
 		}
 	}
@@ -55,7 +55,7 @@ public class ElsticSearch {
 				client.execute(index);
 			//}
 		} catch (IOException ex) {
-			System.out.println("the error while creating index is :" + ex);
+			LOG.debug("error is : " + ex);
 		}catch (ElasticsearchException ex) {
 			//System.out.println("the error while searching document is :" + ex);
 		}
